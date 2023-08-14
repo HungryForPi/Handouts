@@ -1,0 +1,202 @@
+\documentclass{scrartcl}
+\usepackage{von}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{Junior Math Team Notes}}
+\ohead{\footnotesize \today}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}[1]{{\sffamily\textbf{\textcolor{blue}{#1}}}}
+% hacks for arc
+\providecommand{\tarc}{\mbox{\large$\frown$}}
+\providecommand{\arc}[1]{\stackrel{\tarc}{#1}}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\href{https://otis.evanchen.cc/arch/#1}{\ttfamily\footnotesize\color{green!40!black}#1}}}
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+	linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+mdframed={style=mdbluebox},]{thmbluebox}
+
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+	nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+	linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+
+\mdfdefinestyle{mdorangebox}{linecolor=RedOrange,backgroundcolor=RedOrange!5,
+	linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{RedOrange!70!black},
+mdframed={style=mdorangebox},headpunct={ --- },]{thmorangebox}
+
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+	linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+
+\declaretheorem[style=thmredbox,name=Problem,numberwithin=section]{problem}
+\declaretheorem[style=thmredbox,name=Required Problem,sibling=problem]{reqproblem}
+\declaretheorem[style=thmbluebox,name=Theorem,sibling=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=thmorangebox,name=Warning,sibling=theorem]{warning}
+\declaretheorem[style=thmorangebox,name=Note,numbered=no]{note}
+\declaretheorem[style=thmblackbox,name=Exercise,sibling=problem]{exercise}
+%% 426c616e6b204c615465587e
+
+\usepackage{graphicx}
+
+\newenvironment{soln}{\begin{proof}[Solution]}{\end{proof}}
+
+\newcommand{\vonsol}[1]{
+	\begin{soln}
+		\voninclude[1]{#1}
+	\end{soln}
+}
+
+\title{Junior Math Team Inequalities Notes}
+\subtitle{Based on lessons by Mr. Kats}
+\author{Aditya Pahuja}
+\date{\today}
+\begin{document}
+\maketitle
+\tableofcontents
+\pagebreak
+
+\section{VB1}
+The study of inequalities can largely be thought of as manipulations of
+the following poorly-named inequality:
+\begin{theorem}[Trivial Inequality, or VB1]
+	For all real numbers $x$,
+	\[x^2 \ge 0\]
+	with equality if and only if $x = 0$.
+\end{theorem}
+
+Since the name ``trivial inequality'' seems a bit disparaging,
+we instead refer to this as Very Basic 1, or VB1, as Mr. Kats
+says\footnote{No, there is no VB2.}.
+The main point to emphasize in this short section is that
+this simple inequality is the basis for a large portion of the
+theory of inequalities; it can be thought of as the ``machine code'' in which
+the language of inequalities is run.
+Therefore, when you use inequalities like AM-GM or Cauchy-Schwarz later on,
+just know that you could in theory (and with a lot of pain)
+distill these down to applications of good old VB1.
+
+\begin{problem}
+	Prove the AM-GM inequality for two variables; that is, prove that
+	\[\frac{a + b}{2}\ge \sqrt{ab}\]
+	for all positive real numbers $a$ and $b$,
+	and show that equality occurs if and only if $a = b$.
+\end{problem}
+
+\begin{problem}[SophFrosh Practice]
+	Compute the minimum value of the expression
+	\[x^4y^2 + x^4 + x^2y^2 - 6x^2y + x^2 + y^2 + 1.\]
+\end{problem}
+
+\begin{problem}
+	Let $a$, $b$, $c$, $d$, and $e$ be real numbers. Show that, if
+	$2a < 5b$, then
+	\[x^5 + ax^4 + bx^3 + cx^2 + dx + e\]
+	cannot have all real roots.
+\end{problem}
+
+\section{Inequalities of Averages}
+Probably the most well-known inequality, besides VB1, is the
+\alert{arithmetic mean-geometric mean (AM-GM)} inequality,
+which states that the arithmetic mean of any nonnegative reals
+is at least as large as their geometric mean, with equality when
+the numbers are all equal. Symbolically, it says
+\begin{theorem}[AM-GM]
+	If $a_1$, $a_2$, \dots, $a_n$ are nonnegative real numbers, then
+	\[\frac{a_1 + a_2 + \cdots + a_n}{n} \ge \sqrt[n]{a_1a_2\cdots a_n},\]
+	with equality if and only if $a_1 = a_2 = \cdots = a_n$.
+\end{theorem}
+
+The previous section proposed two-variable AM-GM as a practice problem;
+for completeness, we now prove it here:
+\begin{align*}
+	\frac{a+b}{2} &\ge \sqrt{ab}\\
+	\iff \left(\frac{a+b}{2}\right)^2 &\ge ab\\
+	\iff a^2 + 2ab + b^2 &\ge 4ab\\
+	\iff a^2 - 2ab + b^2 = (a - b)^2 &\ge 0.
+\end{align*}
+Observe that each manipulation made here is reversible,
+so we've constructed a chain of equivalent inequalities,
+the last of which is true; this implies that the original inequality is
+also true.
+Equality of course holds only when $a - b = 0$, or equivalently $a = b$.
+
+Using the two-variable version, we can easily prove Theorem 2.1
+whenever $n = 2^k$ is a power of two (try it yourself!).
+One way to do this is by induction on $k$.
+
+\begin{theorem*}[AM-GM on $2^k$ variables]
+	Let $n = 2^k$ for some positive integer $k$. Then,
+	\[\frac{a_1 + a_2 + \cdots + a_n}{n} \ge \sqrt[n]{a_1a_2\cdots a_n},\]
+	and equality holds if and only if $a_1 = a_2 = \cdots = a_n$.
+\end{theorem*}
+\begin{proof}
+	We perform induction on $k$, with the base case $k = 1$ being proven above. 
+	
+	For the inductive hypothesis, assume that this holds
+	up to some arbitrary $k$.
+	We then wish to show that the inequality is also true for $k + 1$:
+	\begin{align*}
+		\frac{a_1 + a_2 + a_3 + \cdots + a_{2^{k+1}}}{2^{k+1}} &=
+		\half\left(\frac{a_1 + a_2 + \cdots + a_{2_k}}{2^k}
+		+ \frac{a_{2^k+1} + a_{2^k+2} + \cdots + a_{2^{k+1}}}{2^k}\right)\\
+		&\ge \half\left(\sqrt[2^k]{a_1a_2\cdots a_{2^k}} +
+		\sqrt[2^k]{a_{2^k+1}a_{2^k+1}\cdots a_{2^{k+1}}}\right)\\
+		&\ge \sqrt{\sqrt[2^k]{a_{2^k+1}a_{2^k+1}\cdots a_{2^{k+1}}}\cdot
+		\sqrt[2^k]{a_1a_2\cdots a_{2^k}}}\\
+		&= \sqrt[2^k]{a_{1}a_{2}a_3\cdots a_{2^{k+1}}}.
+	\end{align*}
+	Intuitively, we're halving the dataset into two smaller powers of two
+	on which we can apply our smaller AM-GMs.
+\end{proof}
+
+This extends readily into all positive integers with the following trick:
+\begin{problem}
+	Show that if the AM-GM inequality is true for $n \ge 3$ variables,
+	then it must also be true for $n - 1$ variables.
+	(Be careful not to use circular reasoning here!)
+\end{problem}
+In principle, the idea is that we can find arbitrarily large $n$
+for which AM-GM is true, so the ability to prove $n\implies n - 1$
+covers all of $\NN$. 
+
+\end{document}

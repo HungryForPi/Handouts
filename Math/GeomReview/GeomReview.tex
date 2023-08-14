@@ -1,0 +1,896 @@
+\documentclass{scrartcl}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{Geometry Review}}
+\ohead{\footnotesize \today}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}[1]{{\sffamily\textbf{\textcolor{blue}{#1}}}}
+
+\reversemarginpar
+
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+mdframed={style=mdbluebox},]{thmbluebox}
+
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+
+\mdfdefinestyle{mdorangebox}{linecolor=RedOrange,backgroundcolor=RedOrange!5,
+linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{RedOrange!70!black},
+mdframed={style=mdorangebox},headpunct={ --- },]{thmorangebox}
+
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+
+\declaretheorem[style=thmredbox,name=Problem,numberwithin=subsection]{problem}
+\declaretheorem[style=thmredbox,name=Example,numberwithin=subsection]{example}
+\declaretheorem[style=thmredbox,name=$\bigstar$ Problem,sibling=problem]{niceprob}
+
+\declaretheorem[style=thmbluebox,name=Theorem,sibling=example]{theorem}
+\declaretheorem[style=thmbluebox,name=Proposition,sibling=example]{prop}
+\declaretheorem[style=thmbluebox,name=Corollary,sibling=theorem]{corollary}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+
+\declaretheorem[style=thmgreenbox,name=Claim,numberwithin=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+
+\declaretheorem[style=thmorangebox,name=Warning,sibling=theorem]{warning}
+\declaretheorem[style=thmorangebox,name=Note,numbered=no]{note}
+\declaretheorem[style=thmblackbox,name=Exercise,numbered=no]{exercise}
+%% 426c616e6b204c615465587e
+
+\usepackage{graphicx}
+\usepackage{todonotes}
+
+\newenvironment{soln}{\begin{proof}[Solution]}{\end{proof}}
+\newenvironment{walkthrough}{\noindent\textbf{Walkthrough.}}{}
+\newlist{walk}{enumerate}{3}
+\setlist[walk]{label=\bfseries (\alph*)}
+\usepackage{todonotes}
+
+\providecommand{\pow}{\operatorname{Pow}}
+\providecommand{\vocab}[1]{{\textbf{\textcolor{ForestGreen}{#1}}}}
+
+\title{Geometry Review}
+\subtitle{Stuyvesant Senior Math Team}
+\author{Aditya Pahuja}
+\date{\today}
+\begin{document}
+\maketitle
+\tableofcontents
+\pagebreak
+
+\setcounter{section}{-1}
+\section{Conventions}
+For the most part, diagrams will not be included,
+both because I'm lazy and because you should get practice drawing diagrams!
+Drawing a decent diagram can often be the hardest part of a problem.
+
+\subsection{Definitions}
+It's assumed that you know the definitions of the five
+most common triangle centers, which are listed here for completeness.
+In $\triangle ABC$,
+\begin{itemize}
+	\ii the \vocab{incenter} is the concurrency point of the
+	(internal) angle bisectors of $\angle A$, $\angle B$, and $\angle C$.
+	\ii the \vocab{centroid} is the concurrency point of the medians.
+	\ii the \vocab{circumcenter} is the concurrency point of the perpendicular
+	bisectors of $AB$, $BC$, and $CA$.
+	\ii the \vocab{orthocenter} is the concurrency point of the altitudes.
+	\ii the \vocab{$A$-excenter} is the concurrency point of
+	the internal angle bisector of $\angle A$ and
+	the external angle bisectors of $\angle B$ and $\angle C$.
+	The $B$-excenter and $C$-excenter are defined similarly.
+\end{itemize}
+The existence of these centers will be assumed for now;
+methods to prove them will be developed later on.
+(You should be able to prove the all of the centers' existence
+if you remember last year's lessons, though.)
+\subsection{Notation}
+\begin{itemize}
+	\ii When writing $\triangle ABC\cong\triangle XYZ$ or
+	$\triangle ABC\sim\triangle XYZ$, the order of the vertices encodes
+	corresponding vertices. In other words,
+	$\angle A = \angle X$, $\angle B = \angle Y$, and $\angle C = \angle Z$.
+	\ii If points $P_1$, $P_2$, \dots, $P_n$ are concyclic
+	(i.e. lie on some circle), then
+	$(P_1P_2\dots P_n)$ is the circle passing through those points.
+	\ii We sometimes denote the side lengths of the sides of $\triangle ABC$ by
+	$BC = a$, $CA = b$, and $AB = c$.
+\end{itemize}
+\pagebreak
+\section{Philosophical Rambling}
+There are two main ways to view a geometry problem:
+\emph{synthetically} and \emph{analytically}.
+
+Analytic methods involve viewing the configuration using
+some computational framework: trigonometry and Cartesian coordinates
+are the standard beginner's tools for this approach.
+
+Synthetic geometry, on the other hand, can be thought of as building up
+geometry from some set of axioms: A lot of your 9th-grade geometry
+is the basis of synthetic methods.
+
+A strong geometer is comfortable with both synthetic and analytic techniques:
+each tool (or perhaps combination of tools) is best suited for different
+kinds of problems. In my experience, people are generally much more comfortable
+working with computational techniques, so I'll generally focus more on
+synthetic techniques here. As such, you should always try to look for
+synthetic solutions where you can
+(but bonus points if you can find multiple solutions!).
+
+\section{Synthetic Techniques}
+\subsection{Digression: How to approach problems}
+Generally, solving problems comes in two phases:
+\begin{enumerate}
+	\ii The ``scouting'' phase, where you try to get some intuition
+	about why the problem works.
+	This can manifest in multiple ways, such as
+	\begin{itemize}
+		\ii searching for what ``should'' be true, such as by working backwards
+		(ex. ``$\triangle HBC\sim\triangle ODE$ needs to be true
+		for the problem to be true.''),
+		\ii getting a heuristic understanding of what's going on
+		(ex. ``$|7^a - 3^b|$ should generally be much larger than $|a^4 + b^2|$,
+		so $a$ and $b$ should be small, whatever \emph{small} means.''),
+		\ii thinking about why certain techniques don't work
+		(ex. ``I can't show that a randomly selected path in my graph
+		behaves the way I want, so I should try considering
+		the whole set of paths simultaneously.''),
+		\ii thinking about what techniques might work
+		(ex. ``I have a central right triangle, and my points are easy to define
+		with respect to this right triangle, so Cartesian coordinates could work.'')
+	\end{itemize}
+	and so on. These are the things that people sometimes call
+	``motivation.''
+	\ii The ``attacking'' phase, where you prove things about the problem.
+	This is the part where you actually try computing things, performing induction,
+	etc., ideally solving the problem, but at least getting some sort of
+	intermediate claim. These are much more concrete methods,
+	and are the parts that actually show up in your solution,
+	if you were to write it out.
+\end{enumerate}
+(This is largely parroting ideas from Evan Chen's blog post on
+\hyperlink{https://blog.evanchen.cc/2019/05/03/hard-and-soft-techniques/}{hard and soft techniques}.)
+
+Put more simply, you gather information while scouting,
+and then use that information to mount an attack, hopefully destroying the problem.\\
+
+Most of the time, scouting is done through a synthetic lens.
+This can come in the form of redefining points to be more well-behaved
+(perhaps in hope of finding an analytic approach),
+angle chasing to look for similar triangles/cyclic quadrilaterals
+(although that can be thought of as attacking, too), etc.
+In that vein, scouting strategies will be in \alert{blue, sans-serif font}.
+Try to come up with some heuristics on your own, too.
+
+\subsection{Angles}
+Angle chasing is a very low-powered technique:
+you should've already encountered most of the necessary material
+in 9th-grade geometry.
+For completeness, here are the two most important theorems that
+you should know at least as well as the back of your hand
+(but preferably better).
+
+\begin{theorem}[Cyclic quadrilaterals and inscribed angles]
+	Let $ABCD$ be a convex quadrilateral. Then, the following are equivalent:
+	\begin{itemize}
+		\ii There exists a circle containing $A$, $B$, $C$, and $D$.
+		\ii $\angle ABC = 180\dg - \angle ADC$.
+		\ii $\angle ACB = \angle ADB$.
+	\end{itemize}
+\end{theorem}
+
+\begin{theorem}[Tangents and chords]
+	There is a triangle $\triangle ABC$ and a line $\ell$ through $A$.
+	Let $D$ be a point on $\ell$ such that $B$ and $D$ are on opposite sides
+	of line $AC$.
+	Then, $\ell$ is tangent to $(ABC)$ at $A$ if and only if
+	$\angle ABC$ and $\angle DAC$ are congruent.
+\end{theorem}
+
+\subsubsection{Walkthroughs}
+\begin{example}[JMO 2011/5]
+	Points $A$, $B$, $C$, $D$, $E$ lie on a circle $\omega$
+	and $P$ lies outside the circle. The given points are such that
+	(i) lines $PB$ and $PD$ are tangent to $\omega$,
+	(ii) $P$, $A$, $C$ are collinear, and
+	(iii) $DE\parallel AC$.
+	
+	Prove that $BE$ bisects $AC$.
+\end{example}
+
+\begin{walkthrough}
+	Let $M$ be the midpoint of $AC$. We can then phrase the problem as
+	``Show that $B$, $M$, and $E$ are collinear.''
+	\begin{walk}
+		\ii Assume for a moment that $B$, $M$, and $E$ are collinear.
+		What quadruple of points (besides a subset of $\{A, B, C, D, E\})$
+		must form a cyclic quadrilateral under this assumption?
+		
+		\ii Get rid of the assumption and prove that the quadrilateral
+		you found in \textbf{(a)} really is cyclic.
+		
+		\ii Using this cyclic quadrilateral, show that $B$, $M$, and $E$
+		are collinear. One approach is to show that $\angle BMC = \angle BED$
+		(assuming that $A$, $B$, $C$, $D$, $E$ are on the circle in that order).
+	\end{walk}
+	
+	The key step of this problem is the discovery of the cyclic quadrilateral.
+	Often, the key idea in a geometry problem is locating a particular
+	cyclic quadrilateral, set of collinear points, set of concurrent lines,
+	etc., so it's important to develop some strategies for guessing
+	when these features appear.
+	
+	One such strategy, which we used in part \textbf{(a)}, is
+	\alert{working backwards}. The idea is to assume that the desired result
+	is true, and then formulate equivalent but more tractable statements.
+	In this case, $M$ turns out to be the midpoint \emph{if and only if}
+	this mystery quadrilateral is cyclic, so proving that it's cyclic
+	essentially solves the problem.
+	
+	(Question: Why should you expect the quadrilateral being cyclic to be
+	\emph{equivalent} to the collinearity?)
+\end{walkthrough}
+
+\begin{example}[2022 AIME II/11]
+	Let $ABCD$ be a convex quadrilateral with $AB = 2$, $AD = 7$, and $CD = 3$
+	such that the bisectors of acute angles $\angle DAB$ and $\angle ADC$
+	intersect at the midpoint of $BC$. Find the area of $ABCD$.
+\end{example}
+\begin{walkthrough}
+	The core of this problem is a bunch of angle chasing, followed by
+	a tiny bit of computation.
+	
+	Let $M$ be the midpoint of $BC$ and let $P$ be the intersection of
+	lines $AB$ and $CD$; then, $M$ is the incenter of $\triangle APD$.
+	\begin{walk}
+		\ii Solve the following problem first: Let $\triangle ABC$ be
+		a triangle with incenter $I$. Points $X$ and $Y$ lie on $AB$ and $AC$
+		such that $I$ is the midpoint of $XY$. Describe a ruler-and-compass
+		construction for $X$ and $Y$ given $A$, $B$, $C$, and $I$.
+		\ii How does the previous part apply in the original problem?
+		Describe $\triangle PBC$.
+		\ii Show that
+		$\triangle ABM\sim\triangle MCD\sim\triangle AMD$.
+		\ii Compute the lengths $AM$, $BM$, $CM$, and $DM$
+		via the similar triangles.
+		\ii Extract the final answer of $6\sqrt5$, either by Heron's formula
+		or by trigonometry.
+	\end{walk}
+	This is a problem where the original diagram is hard to construct
+	with a ruler and compass without some additional thinking.
+	In such problems, one common approach is to
+	\alert{try phrasing the problem more naturally}:
+	in this case, rewriting the problem with respect to
+	$\triangle APD$ essentially solved the problem, since it allowed us
+	to wrangle the ``angle bisectors concur on the midpoint of $BC$'' condition.
+\end{walkthrough}
+
+\begin{example}[2020 AIME II/15]
+	Let $\triangle ABC$ be an acute scalene triangle with circumcircle $\omega$.
+	The tangents to $\omega$ at $B$ and $C$ intersect at $T$.
+	Let $X$ and $Y$ be the projections of $T$ onto lines $AB$ and $AC$,
+	respectively.
+	Suppose $BT = CT = 16$, $BC = 22$, and $TX^2 + TY^2 + XY^2 = 1143$.
+	Find $XY$.
+\end{example}
+
+\begin{walkthrough}
+	There are several viable approaches here, including trigonometry
+	and complex numbers. We will go through a synthetic solution, though.
+	
+	The most difficult aspect of this problem is that the diagram is very bare:
+	angle chasing will show you a few equal angles, but you won't find
+	anything particularly substantive.
+	
+	\begin{walk}
+		\ii Let $M$ be the foot of the perpendicular from $T$ to $BC$.
+		What properties does $M$ have?
+		(There are at least three nontrivial ones.)
+		\ii Show that $TXMY$ is a parallelogram.
+		\ii The parallelogram law (also called Apollonius' theorem)
+		says that
+		\[TX^2 + TY^2 + MX^2 + MY^2 = XY^2 + TM^2.\]
+		In other words, the sum of the squares of a parallelogram's side lengths
+		is equal to the sum of the squares of its diagonals.
+		Use this to compute the final answer.
+		\ii Optionally, prove that $M$ is the orthocenter of $\triangle AXY$.
+	\end{walk}
+	
+	Actually, this solution is pretty short: there are not many things to do
+	once you add in $M$; the challenge is realizing that adding $M$ helps.
+\end{walkthrough}
+
+\subsubsection{Extra Problems}
+In general, these will be problems that show some common configurations
+or that I simply think are nice/instructive.
+A couple of problems are marked with a star
+because I think they're extra cool.
+They are roughly in difficulty order.
+\begin{problem}
+	Let $\triangle ABC$ have orthocenter $H$. Lines $AH$, $BH$, and $CH$
+	intersect lines $BC$, $CA$, and $AB$ at $D$, $E$, and $F$ respectively.
+	Find all six cyclic quadrilaterals with vertices in
+	$\{A, B, C, D, E, F, H\}$, and describe their circumcenters.
+	
+	(Bonus: prove that the six circumcenters are concyclic, too.)
+\end{problem}
+
+\begin{problem}[Incenter-Excenter Lemma]
+	Consider a triangle $\triangle ABC$. The angle bisector of
+	$\angle BAC$ intersects its circumcircle $\omega$ again at $L$.
+	Show that $L$ is the circumcenter of quadrilateral
+	$BICI_A$, where $I$ is the incenter and $I_A$ is the $A$-excenter
+	of the triangle.
+\end{problem}
+
+\begin{problem}[Reflecting the orthocenter]
+	Show that the reflections of the orthocenter of triangle $\triangle ABC$
+	over $BC$ and the midpoint of $BC$ both lie on the circumcircle
+	of $\triangle ABC$. Moreover, prove that the reflection over the midpoint
+	is the point diametrically opposite from $A$.
+\end{problem}
+
+\begin{problem}[2021 AIME II/14]
+	Let $\triangle ABC$ be an acute triangle with circumcenter $O$ and
+	centroid $G$. Let $X$ be the intersection of the line tangent
+	to the circumcircle of $\triangle ABC$ at $A$ and the line
+	perpendicular to $GO$ at $G$.
+	Let $Y$ be the intersection of lines $XG$ and $BC$.
+	Given that the measures of $\angle ABC, \angle BCA,$ and $\angle XOY$
+	are in the ratio $13 : 2 : 17$, compute the degree measure of $\angle BAC$. 
+\end{problem}
+
+\begin{niceprob}[USAMO 2021/1]
+	Rectangles $BCC_1B_2$, $CAA_1C_2$, and $ABB_1A_2$ are erected
+	outside an acute triangle $ABC$. Suppose that
+	\[\angle BC_1C + \angle CA_1A + \angle AB_1B = 180\dg.\]
+	Prove that lines $B_1C_2$, $C_1A_2$, and $A_1B_2$ are concurrent.
+\end{niceprob}
+
+\begin{niceprob}[BrMO 2013/2, aka the first isogonality lemma]
+	Let $ABC$ be a triangle and let $P$ be a point inside it satisfying
+	$\angle ABP = \angle PCA$. Let $Q$ be the reflection of $P$
+	across the midpoint of $BC$. Prove that $\angle BAP = \angle CAQ$.
+\end{niceprob}
+
+\pagebreak
+\subsection{Power of a Point}
+Power of a point is an extremely useful theorem,
+and I dedicate a section to it here because it's the most frequently used
+bridge between length information and angle information
+(except for maybe trigonometry).
+This should make sense, as it's essentially similar triangles in a neat package.
+
+Here's the statement as a refresher:
+\begin{theorem}[Power of a point]
+	Let $\Gamma$ be a circle and $P$ be any point. Then, across all choices of
+	lines through $P$ intersecting $\Gamma$ at $X$ and $Y$
+	(it's possible for $X = Y$), the quantity
+	\[PX\cdot PY\]
+	is constant.
+\end{theorem}
+
+It's also often phrased in the following equivalent manner:
+\begin{corollary}
+	Let $A$, $B$, $C$, and $D$ be points on a circle. Then, if $AB$ and $CD$
+	intersect at a point $P$,
+	\[PA\cdot PB = PC\cdot PD.\]
+\end{corollary}
+As alluded to above, the proof of this follows directly from
+$\triangle PAC\sim\triangle PDB$.
+
+Also, the converse is true!
+\begin{theorem}[Converse of POP]
+	If $AB$ and $CD$ are lines intersecting at $P$ and
+	\[PA\cdot PB = PC\cdot PD,\]
+	then $A$, $B$, $C$, and $D$ form a cyclic quadrilateral.
+\end{theorem}
+
+The nice thing about everything above is that we have a lot of freedom:
+we can choose $AB$ and $CD$ to be any lines passing through $P$.
+In particular this quantity is entirely dependent on the choice of
+$P$ and the features of the circle. This motivates the following definition:
+
+\begin{definition}
+	Let $\Gamma$ be a circle with center $O$ and radius $r$,
+	and let $P$ be a point in the plane.
+	We define the \vocab{power} of $P$ with respect to $\Gamma$ by
+	\[\pow_{\Gamma}(P) = OP^2 - r^2.\]
+\end{definition}
+\begin{exercise}
+	Verify that $|\pow_\Gamma(P)| = PX\cdot PY$ for any choice of
+	$X$ and $Y$ on $\Gamma$ such that $P$, $X$, and $Y$ are collinear.
+	When is the power positive? Negative? Zero?
+\end{exercise}
+\pagebreak
+While we will discuss this function in more detail later in the year,
+here's one important result that shows up pretty often.
+
+\begin{theorem}[Radical axis]
+	Let $\Gamma_1$ and $\Gamma_2$ be two non-concentric circles.
+	Then, the set of points $P$ satisfying
+	\[\pow_{\Gamma_1}(P) = \pow_{\Gamma_2}(P)\]
+	is a line that is perpendicular to the line joining the centers of
+	$\Gamma_1$ and $\Gamma_2$. This line is called the
+	\vocab{radical axis} of the two circles.
+\end{theorem}
+
+\begin{proof}
+	Let $\Gamma_i$ have center $O_i$ and radius $r_i$. Then, we want to find
+	the set of points $P$ for which
+	\[O_1P^2 + r_1^2 = O_2P^2 - r_2^2 \iff
+	O_1P^2 - O_2P^2 = r_1^2 - r_2^2.\]
+	We then want to show that the set of points for which
+	$O_1P^2 - O_2P^2$ is equal to the constant $r_1^2 - r_2^2$
+	is a line.
+	
+	\begin{claim}
+		Let $AB$ be a segment and let $C$ and $D$ be two points.
+		Then,
+		\[AC^2 - BC^2 = AD^2 - BD^2\]
+		if and only if $AB\perp CD$.
+	\end{claim}
+	\begin{proof}
+		If $AB\perp CD$, then the result follows from Pythagorean theorem.
+		
+		In the other direction, if the length condition is true, then
+		let $H_C$ and $H_D$ be the feet of $C$ and $D$ onto $AB$. Then
+		\[AH_C^2 - BH_C^2 = AC^2 - BC^2 = AD^2 - BD^2 = AH_D^2 - BH_D^2\]
+		implies that $H_C = H_D$, so $CD\perp AB$.
+	\end{proof}
+	
+	This says that the set of points $X$ for which
+	$O_1X^2 - O_2X^2$ is constant is a line perpendicular to $O_1O_2$,
+	which is what we wanted to prove.
+\end{proof}
+
+An alternate (and simpler) proof can also be extracted using coordinates,
+but the synthetic approach is good to know, since
+the intermediary claim is pretty useful itself.
+
+\begin{remark}
+	You may notice the function $f\colon\RR^2\to\RR$
+	given by $\pow_{\omega_1}(X)-\pow_{\omega_2}(X)$
+	arising naturally from the proof --- the radical axis
+	is the set of points which make the function zero.
+	Interestingly, $f$ is \vocab{linear}; that is,
+	\[f(kA + (1-k)B) = kf(A) + (1-k)f(B)\]
+	where multiplication (between real numbers and points) and
+	addition (between two points) are done componentwise with the coordinates.
+	
+	The upshot of this is that knowing the value of $f$ at $A$ and $B$
+	lets you compute $f(X)$ for all $X$ on line $AB$,
+	and, if you know $f$ at $A$, $B$, and $C$, then you can compute
+	the value of $f$ at any point in the plane.
+\end{remark}
+
+\pagebreak
+\subsubsection{Walkthroughs}
+\begin{example}[JMO 2012/1]
+	Given a triangle $ABC$, let $P$ and $Q$ be on segments $AB$ and $AC$,
+	respectively, such that $AP = AQ$. Let $S$ and $R$ be distinct points
+	on segment $BC$ such that $S$ lies between $B$ and $R$,
+	$\angle BPS = \angle PRS$, and $\angle CQR = \angle QSR$.
+	Prove that $P$, $Q$, $R$, $S$ are concyclic.
+\end{example}
+
+\begin{walkthrough}
+	This problem is one of my favorites because its solution
+	uses a really unique idea.
+	\begin{walk}
+		\ii Assume for the sake of contradiction that $(PRS)$ and $(QRS)$
+		are distinct circles. Then, show that
+		$AB$ is tangent to $(PRS)$ at $P$ and
+		$AC$ is tangent to $(QRS)$ at $Q$.
+		\ii Convince yourself that $RS$ is the radical axis of the circles
+		(in particular, that the two circles are not concentric).
+		\ii Find a point not on line $RS$ that has the same power
+		with respect to $(PRS)$ and $(QRS)$, and deduce a contradiction.
+	\end{walk}
+	
+	I think this solution seems really unnatural at first glance,
+	but it presents itself after noticing that the circles above
+	should be tangent to $AB$ and $AC$.
+	(Theorem 2.2 paying back in spades!)
+\end{walkthrough}
+
+\begin{example}[Euler's theorem]
+	Let $\triangle ABC$ have circumcenter $O$ and incenter $I$,
+	as well as circumradius $R$ and inradius $r$. Then,
+	\[OI^2 = R^2 - 2Rr.\]
+\end{example}
+
+\begin{walkthrough}
+	This problem lends itself very handily to power of a point
+	because of the given equation.
+	\begin{enumerate}[label=\textbf{(\alph*)}]
+		\ii Let $\Gamma$ be the circumcircle of $\triangle ABC$.
+		Show that $\pow_{\Gamma}(I) = -2Rr$.
+		This means we want to show that $XI\cdot YI = 2Rr$
+		for some choice of $X,Y\in\Gamma$ with $X$, $I$, $Y$ collinear.
+		\ii Draw the angle bisector from $A$, and let it intersect $\Gamma$
+		at $D$. Then, we want $AI\cdot ID = 2Rr$.
+		If you haven't already done Problem 1.2, show that $DI = DB$.
+		\ii Imagine that the equation above was the result of
+		setting up a proportion between two similar triangles.
+		Working backwards, what might the original proportion be?
+		Keep in mind which segments would most readily fit in a triangle together.
+		\ii If you did part \textbf{(c)} correctly, then you should be able to
+		draw in one more point to create a pair of similar triangles
+		with the desired proportion.
+	\end{enumerate}
+	
+	This is a pretty classical example of power of a point, and it's
+	sometimes used in geometric inequalities, since you can show that
+	\[R(R - 2r) = OI^2 \ge 0,\]
+	so $R \ge 2r$ (when does equality happen?). Using some area formulas,
+	you can even extract the inequality
+	\[4R^2 \ge \frac{abc}{a + b + c},\]
+	which has no trace of $r$, surprisingly.
+\end{walkthrough}
+
+\subsubsection{Extra Problems}
+
+\begin{problem}
+	Let $\Gamma_1$ and $\Gamma_2$ be two intersecting circles.
+	Let a common tangent to $\Gamma_1$ and $\Gamma_2$ touch
+	$\Gamma_1$ at $A$ and $\Gamma_2$ at $B$.
+	Show that the common chord of $\Gamma_1$ and $\Gamma_2$, when extended,
+	bisects segment $AB$.
+\end{problem}
+
+\begin{problem}[Radical center]
+	Let $\omega_1$, $\omega_2$, and $\omega_3$ be three circles
+	whose centers are not collinear. Show that the radical axes
+	of each pair of circles concur at some point $P$,
+	which is called the \vocab{radical center} of the three centers.
+\end{problem}
+
+\begin{problem}
+	Describe a ruler-and-compass construction for the radical axis
+	of \emph{any} two (possibly disjoint) circles.
+\end{problem}
+
+\begin{problem}[2019 AIME II/11]
+	Triangle $ABC$ has side lengths $AB=7, BC=8,$ and $CA=9.$
+	Circle $\omega_1$ passes through $B$ and is tangent to line $AC$ at $A.$
+	Circle $\omega_2$ passes through $C$ and is tangent to line $AB$ at $A.$
+	Let $K$ be the intersection of circles $\omega_1$ and $\omega_2$
+	not equal to $A.$ Compute $AK$.
+\end{problem}
+
+\begin{niceprob}[Shortlist 2022 G2]
+	In the acute-angled triangle $ABC$, the point $F$ is the foot of the altitude
+	from $A$, and $P$ is a point on the segment $AF$. The lines through $P$ parallel
+	to $AC$ and $AB$ meet $BC$ at $D$ and $E$, respectively. Points $X \ne A$ and $Y
+	\ne A$ lie on the circles $ABD$ and $ACE$, respectively,
+	such that $DA = DX$ and $EA = EY$.
+	Prove that $B$, $C$, $X$, and $Y$ are concyclic.
+\end{niceprob}
+
+\begin{problem}[IMO 2000/1]
+	Two circles $ G_1$ and $ G_2$ intersect at two points $ M$ and $ N$.
+	Let $ AB$ be the line tangent to these circles at $ A$ and $ B$,
+	respectively, so that $ M$ lies closer to $ AB$ than $ N$.
+	Let $ CD$ be the line parallel to $ AB$ and passing through the point $ M$,
+	with $ C$ on $ G_1$ and $ D$ on $ G_2$. Lines $ AC$ and $ BD$ meet at $ E$;
+	lines $ AN$ and $ CD$ meet at $ P$; lines $ BN$ and $ CD$ meet at $ Q$.
+	Show that $ EP = EQ$.
+\end{problem}
+
+\begin{niceprob}[Japan 2014/4]
+	Let $\Gamma$ be the circumcircle of triangle $ABC$,
+	and let $\ell$ be the tangent line of $\Gamma$ passing through $A$.
+	Let $D$, $E$ be points on sides $AB$ and $AC$ such that $BD : DA = AE : EC$.
+	Line $DE$ meets $\Gamma$ at points $F$ and $G$.
+	The line parallel to $AC$ through $D$ meets $\ell$ at $H$,
+	the line parallel to $AB$ through $E$ meets $\ell$ at $I$.
+	Prove that there exists a circle passing through four points $F$, $G$, $H$, $I$,
+	and tangent to line $BC$.
+\end{niceprob}
+
+\pagebreak
+
+\section{Analytic Techniques}
+\subsection{Theorems}
+The following are things that we saw last year:
+\begin{itemize}
+	\ii (Extended) law of sines: In triangle $\triangle ABC$,
+	\[2R = \frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}.\]
+	\ii Law of cosines: $a^2 +  b^2 - 2ab\cos C = c^2$.
+	\ii Ptolemy's inequality:
+	\[AB\cdot CD + AD\cdot BC \ge AC\cdot BD,\]
+	with equality when $ABCD$ is cyclic, or when
+	$A$, $B$, $C$, $D$ are collinear, with the order of the points on the line
+	being one of $(A,B,C,D)$, $(B,C,D,A)$, $(C,D,A,B)$, $(D,A,B,C)$.
+	(Ptolemy's theorem is just the part where $ABCD$ is cyclic.)
+	\ii Triangle inequality: $AB + BC \ge AC$, with equality if and only if
+	$A$, $B$, $C$ are collinear in that order.
+	\ii Stewart's theorem: $dad + man = bmb + cnc$.
+	\ii Area formulas:
+	$K = \frac{abc}{4R} = \sqrt{s(s - a)(s - b)(s - c)} = rs = ab\sin C$
+\end{itemize}
+
+You should also already know the trig angle addition formulas
+from Algebra II or Precalc:
+\begin{align*}
+	\cos(x + y) &= \cos x\cos y - \sin x\sin y\\
+	\sin(x + y) &= \sin x\cos y + \cos x \sin y.
+\end{align*}
+If you ever forget these, you can equate the real and imaginary parts of
+\[e^{i(x + y)} = e^{ix} \cdot e^{iy}\]
+by using $e^{i\theta} = \cos \theta + i\sin \theta$.
+
+In addition, there are the product-to-sum and sum-to-product formulas below,
+but I can never remember them. You should at least know how to derive them;
+I rederive them every single time.
+\begin{align*}
+	\sin x\sin y &= \half(\cos(x - y) - \cos(x + y))\\
+	\sin x\cos y &= \half(\sin(x - y) + \sin(x + y))\\
+	\cos x\cos y &= \half(\cos(x - y) + \cos(x + y))\\
+	\sin a + \sin b &= 2\sin\left(\frac{a + b}2\right)
+	\cos\left(\frac{a - b}2\right)\\
+	\cos a + \cos b &= 2\cos\left(\frac{a + b}2\right)
+	\cos\left(\frac{a - b}2\right)
+\end{align*}
+The latter two equations are, of course, just the second and third equations
+in the other direction
+(i.e. $(x, y) = \left(\frac{a + b}{2}, \frac{a - b}{2}\right)$).
+
+If you're not so familiar with any of these formulas,
+then go through and verify them.
+
+\pagebreak
+\subsection{Walkthroughs}
+\begin{example}[2015 AIME II/15]
+	Circles $\mathcal{P}$ and $\mathcal{Q}$ have radii $1$ and $4$,
+	respectively, and are externally tangent at point $A$.
+	Point $B$ is on $\mathcal{P}$ and point $C$ is on $\mathcal{Q}$ so that
+	line $BC$ is a common external tangent of the two circles.
+	A line $\ell$ through $A$ intersects $\mathcal{P}$ again at $D$ and
+	intersects $\mathcal{Q}$ again at $E$.
+	Points $B$ and $C$ lie on the same side of $\ell$.
+	Given that the areas of $\triangle DBA$ and $\triangle ACE$ are equal,
+	determine their common value.
+\end{example}
+\begin{walkthrough}
+	The key observation is that these circles are dilations of one another
+	about $A$; we can leverage this fact to get a lot of length relations.
+	\begin{enumerate}[label=\textbf{(\alph*)}]
+		\ii Let any line through $A$ intersect $\mathcal P$ at $X$
+		and $\mathcal Q$ at $Y$. Show that $\frac{AX}{AY} = \frac14$.
+		\ii Show that $\angle BAC = 90\dg$, and then compute $AB$ and $AC$.
+		One approach is to extend $AB$ to hit $\mathcal Q$ at $B'$
+		and find similar triangles.
+		\ii Let $\angle BAD = \alpha$. What are $\sin\alpha$ and $\cos\alpha$?
+		(Hint: What do the equal areas tell you?)
+		\ii What are $BD$ and $AD$?
+		\ii If you did the previous parts correctly, you now know
+		$AB$, $BD$, and $AD$; pick an area formula and finish.
+	\end{enumerate}
+\end{walkthrough}
+
+\begin{example}[Fermat point]
+	Let $\triangle ABC$ be a triangle whose angles are all less than $120\dg$
+	and let $P$ be a point in the plane.
+	Show that $PA + PB + PC$ achieves its minimum value if and only if
+	$\angle APB = \angle BPC = \angle CPA = 120\dg$.
+\end{example}
+
+\begin{walkthrough}
+	The trick with this problem is to draw $X$, the point on the other side
+	of $BC$ from $A$ such that $\triangle BXC$ is equilateral.
+	\begin{enumerate}[label=\textbf{(\alph*)}]
+		\ii Let $F$ be the point such that
+		$\angle AFB = \angle BFC = \angle CFA$. Show that $FBXC$ is cyclic and
+		$A$, $F$, $X$ are collinear.
+		Which two inequalities does $F$ therefore optimize?
+		\ii Use the inequalities from the previous part
+		to show that
+		\[PA + PB + PC \ge AX,\]
+		with equality if and only if $P = F$.
+		\ii Where was the stipulation that $\angle A$, $\angle B$, and $\angle C$
+		are less than $120\dg$ used?
+		\ii Some extra things: If $Y$ and $Z$ are constructed similarly to $X$
+		so that $\triangle CYA$ and $\triangle AZB$ are equilateral,
+		show that $AX = BY = CZ$ and that those three lines are concurrent
+		(at $F$).
+	\end{enumerate}
+	
+	This is another instance where trying to understand the weird condition
+	(namely, the equality case of $\angle AFB = \angle BFC = \angle CFA$)
+	will get you pretty close to a solution;
+	I found it by trying to construct $F$.
+\end{walkthrough}
+
+\begin{example}[2023 AIME I/12]
+	Let $\triangle ABC$ be an equilateral triangle with side length $55$.
+	Points $D$, $E$, and $F$ lie on sides $\overline{BC}$, $\overline{CA}$,
+	and $\overline{AB}$, respectively, with $BD=7$, $CE=30$, and $AF=40$.
+	A unique point $P$ inside $\triangle ABC$ has the property that
+	\[\measuredangle AEP=\measuredangle BFP=\measuredangle CDP.\]
+	Find $\tan\left(\measuredangle AEP\right)$.
+\end{example}
+\begin{walkthrough}
+	I didn't solve this in contest, unfortunately, but here's a
+	synthetic solution I found afterwards using the Fermat point.
+	\begin{enumerate}[label=\textbf{(\alph*)}]
+		\ii Show that the angle condition implies that
+		$AEPF$, $BFPD$, and $CDPE$ are cyclic.
+		What does the equilateral condition say about
+		$\angle DPE$, $\angle EPF$, and $\angle FPD$?
+		\ii Extend $DP$ to meet $(FPE)$ at $X$, so that it suffices to compute
+		$\tan(\angle XDC)$. What do you know about $\triangle EFX$?
+		What about quadrilateral $AXDC$?
+		\ii Compute the length of $AX$ using Ptolemy's theorem.
+		\ii Redraw quadrilateral $AXDC$ separately, and eradicate the problem.
+	\end{enumerate}
+	
+	You can also approach this with complex numbers, coordinates, trigonometry,
+	or other synthetic approaches
+	(one I saw on AoPS was to drop the altitudes from $P$);
+	I encourage looking for an alternate solution.
+\end{walkthrough}
+
+Finally, here's a number theory problem from IMO 2001
+with a strange geometric solution.
+\begin{example}[IMO 2001/6]
+	Let $a > b > c > d$ be positive integers
+	and suppose that
+	\[ac + bd = (b + d + a - c)(b + d - a + c).\]
+	Prove that $ab + cd$ is not prime.
+\end{example}
+\begin{walkthrough}
+	This problem is\dots weird.
+	Let's first reveal where the geometry really is:
+	\begin{walk}
+		\ii Expand the equation (yes, really). You should end up with
+		\[a^2 - ac + c^2 = b^2 + bd + d^2.\]
+		What do the left- and right-hand sides of this equation look like?
+	\end{walk}
+	In light of this, we can construct a quadrilateral $WXYZ$
+	with sides $WX = a$, $XY = c$, $YZ = b$, $ZX = d$,
+	and diagonal $WY$ having length
+	\[\sqrt{a^2 - ac + c^2} = \sqrt{b^2 + bd + d^2},\]
+	so that, by law of cosines, $\angle WXY = 60\dg$ and $\angle WZY = 120\dg$.
+	This means $WXYZ$ is cyclic!
+	
+	On the other hand, the diagonals of a cyclic quadrilateral
+	can \emph{always} be expressed in terms of their sides.
+	\begin{walk}[resume]
+		\ii Show that there are exactly three quadrilaterals
+		with side lengths $a$, $b$, $c$, $d$ in some order.
+		Moreover, show that, among these quadrilaterals,
+		there are three possible lengths $t$, $u$, $v$ for the diagonals;
+		that is, one quadrilateral has diagonals $(t, u)$,
+		one has diagonals $(u, v)$, and one has diagonals $(v, t)$.
+		
+		\ii Apply Ptolemy's theorem in all three quadrilaterals
+		to get the system of equations
+		\begin{align*}
+			ab + cd &= tu\\
+			ac + bd &= uv\\
+			ad + bc &= vt
+		\end{align*}
+		where $t = WY$ and $u = XZ$.
+		Then, compute $t^2$.
+		
+		\ii Finally, we can use the inequality condition:
+		show (ex. by rearrangement) that
+		\[ab + cd > ac + bd > ad + bc,\]
+		so, if $ab + cd$ is prime, then $t^2$ can never be an integer.
+		However, from earlier, $WY^2 = b^2 + bd + d^2$ is an integer ---
+		contradiction!
+	\end{walk}
+	
+	The takeaway from here is primarily that quadratic expressions
+	in two variables can sometimes be thought of as
+	applications of the law of cosines.
+	The additional geometric structure then lets you, well, do geometry
+	to get nontrivial, non-geometric information
+	(such as the fact that $(ac + bd)\mid (ab + cd)(ad + bc)$ in this case).
+\end{walkthrough}
+
+\pagebreak
+\subsection{Extra Problems}
+
+% requires trig ceva :facepalm:
+%\begin{problem}[Shortlist 2001 G1]
+%    Let $A_1$ be the center of the square inscribed in acute triangle $ABC$
+%    with two vertices of the square on side $BC$.
+%    Thus one of teh two remaining vertices of the square is on side $AB$
+%    and the other is on $AC$.
+%    Points $B_1$, $C_1$ are defined in a similar way for inscribed squares
+%    with two vertices on sides $AC$ and $AB$, respectively.
+%    Prove that lines $AA_1$, $BB_1$, $CC_1$ are concurrent.
+%\end{problem}
+
+\begin{problem}[NIMO, Evan Chen]
+	Let $AXYZB$ be a convem pentagon inscribed in a semicircle with diameter $AB$.
+	Suppose that $AZ - AX = 6$, $BX - BZ = 9$, and $BY = 5$.
+	Find the perimeter of quadrilateral $OXYZ$, where $O$ is the midpoint of $AB$.
+\end{problem}
+
+\begin{problem}[2014 AIME I/15]
+	In $\triangle ABC$, $AB = 3$, $BC = 4$, and $CA = 5$.
+	Circle $\omega$ intersects $\overline{AB}$ at $E$ and $B$,
+	$\overline{BC}$ at $B$ and $D$, and $\overline{AC}$ at $F$ and $G$.
+	Given that $EF = DF$ and $\frac{DG}{EG} = \frac{3}{4}$, compute $DE$.
+\end{problem}
+
+\begin{problem}[2012 AIME I/13]
+	Three concentric circles have radii 3, 4, and 5.
+	An equilateral triangle with one vertex on each circle has side length $s$.
+	Compute the largest possible area of the triangle.
+\end{problem}
+
+\begin{niceprob}[Pompeiu's theorem]
+	Let $P$ be a point in the plane of equilateral triangle $\triangle ABC$.
+	Show that $PA$, $PB$, and $PC$ form the sides of a (maybe degenerate) triangle.
+	When is the triangle degenerate?
+\end{niceprob}
+
+\begin{problem}[AMC 12A 2021/24]
+	Semicircle $\Gamma$ has diameter $\ol{AB}$ of length 14.
+	Circle $\Omega$ lies tangent to $\ol{AB}$ at a point $P$
+	and intersects $\Gamma$ at points $Q$ and $R$.
+	If $QR = 3\sqrt3$ and $\angle QPR = 60\dg$, find the area of $\triangle PQR$.
+\end{problem}
+
+\begin{problem}[ARML 2023 T10]
+	Parallelogram $ABCD$ is rotated about $A$ in the plane, 
+	resulting in $AB'C'D'$, with $D$ on $\ol{AB'}$.
+	Suppose that $[B'CD]=[ABD']=[BCC']$. Compute $\tan\angle ABD$.
+\end{problem}
+
+\begin{niceprob}[USAMO 1998/6]
+	Let $n \geq 5$ be an integer. Find the largest integer $k$ (as a function of $n$)
+	such that there exists a convex $n$-gon $A_{1}A_{2}\dots A_{n}$
+	for which exactly $k$ of the quadrilaterals $A_{i}A_{i+1}A_{i+2}A_{i+3}$ have an
+	inscribed circle, where indices are taken modulo $n$. 
+\end{niceprob}
+
+\end{document}

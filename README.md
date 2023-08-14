@@ -1,2 +1,2 @@
 # Handouts
-Storage for instructional mathematical material.
+Storage for instructional mathematical material written by me.
